@@ -38,25 +38,24 @@ class Person:
 
 # TASK 2
 class TriangleListIterator:
-
     def __init__(self, lst):
-        self.lst = [i for j in lst for i in j]
-        self.index = 0
-
-    def __next__(self):
-        counter = 0
-        if self.index < len(self.lst):
-            res = self.lst[self.index]
-            self.index += 1
-            return res
-        else:
-            raise StopIteration
+        self._lst = lst
 
     def __iter__(self):
-        return self
+        for i in range(len(self._lst)):
+            for j in range(i + 1):
+                yield self._lst[i][j]
 
 
+# TASK 3
+class IterColumn:
 
+    def __init__(self, lst, column):
+        self.lst = lst
+        self.column = column
 
+    def __iter__(self):
+        for i in self.lst:
+            yield i[self.column]
 
 
