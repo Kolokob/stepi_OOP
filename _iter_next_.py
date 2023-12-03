@@ -133,7 +133,48 @@ class Stack:
         for i in self.get_data_for_iter():
             yield i
 
+# TASK 5
+class Cell:
 
+    def __init__(self, data):
+        self.__data = data
 
+    @property
+    def data(self):
+        return self.__data
+
+    @data.setter
+    def data(self, value):
+        self.__data = value
+class TableValues:
+
+    def __init__(self, rows=0, cols=0, type_data=int):
+        self.rows = rows
+        self.cols = cols
+        self.type_data = type_data
+        self.cells = [[Cell(0) for i in range(rows)] for j in range(cols)]
+
+    def check_indexes(self, value):
+        r, c = value
+        if isinstance(value, int):
+            if r > self.rows or c > self.cells:
+                raise IndexError('неверный индекс')
+            else:
+                return True
+    def __setitem__(self, key, value):
+        self.check_indexes(key)
+        if type(value) is not self.type_data:
+            raise TypeError('неверный тип присваиваемых данных')
+        r, c = key
+        self.cells[r][c] = value
+
+    def __getitem__(self, item):
+        self.check_indexes(item)
+        r, c = item
+        return self.cells[r][c]
+
+    def __iter__(self):
+        for i in self.cells:
+            yield (j.data for j in i)
 
 
