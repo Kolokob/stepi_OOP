@@ -165,16 +165,15 @@ class EmailValidator:
 
     @classmethod
     def check_email(cls, email):
-        # a = list(map(lambda v: '..' in v, [email]))
-        # if a:
-        #     list(map(lambda v: '..' in v, [email]))
-        pass
-        #     if len(email.split('@'[0])) <= 100:
-        #         if len(email.split('@')[1]) <= 50:
-        #             if '.' in email.split('@')[1]:
-        #                 return True
-        # else:
-        #     return '__False__'
+        a = list(map(lambda v: '..' in v, [email]))
+        if a:
+            list(map(lambda v: '..' in v, [email]))
+            if len(email.split('@'[0])) <= 100:
+                if len(email.split('@')[1]) <= 50:
+                    if '.' in email.split('@')[1]:
+                        return True
+        else:
+            return '__False__'
 
     @staticmethod
     def __is_email_str(email):
