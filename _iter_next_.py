@@ -1,3 +1,4 @@
+import copy
 # TASK 1
 class Person:
 
@@ -177,4 +178,100 @@ class TableValues:
         for i in self.cells:
             yield (j.data for j in i)
 
+# TASK 6
+class Matrix:
+
+    def __init__(self, *args):
+
+        if len(args) == 3:
+            rows, cols, fill_value = args
+            if not (isinstance(rows, int) and isinstance(cols, int) and isinstance(fill_value, int)):
+                raise TypeError('аргументы rows, cols - целые числа; fill_value - произвольное число')
+            self.data = [[fill_value] * cols for _ in range(rows)]
+
+        if len(args) == 1 and isinstance(args[0], list):
+            row_length = len(args[0][0])
+
+            for row in args[0]:
+                if len(row) != row_length:
+                    raise TypeError('список должен быть прямоугольным, состоящим из чисел')
+                for i in row:
+                    if not isinstance(i, int):
+                        raise TypeError('список должен быть прямоугольным, состоящим из чисел')
+            self.data = args[0]
+
+
+    def __getitem__(self, item):
+        r, c = item
+
+        if not isinstance(r, int) or not isinstance(c, int):
+            raise IndexError('значения матрицы должны быть числами')
+
+        if r < 0 or r > len(self.data) or c < 0 or c > len(self.data):
+            raise IndexError('недопустимые значения индексов')
+
+        r, c = item
+        return self.data[r][c]
+
+    def __setitem__(self, key, value):
+        r, c = key
+
+        if not isinstance(r, int) or not isinstance(c, int):
+            raise IndexError('значения матрицы должны быть числами')
+
+        if r < 0 or r > len(self.data) or c < 0 or c > len(self.data):
+            raise IndexError('недопустимые значения индексов')
+
+        if not isinstance(value, int):
+            raise TypeError('значения матрицы должны быть числами')
+
+        self.data[r][c] = value
+
+    def __add__(self, other):
+        if isinstance(other, Matrix):
+            if len(self.data) != len(other.data):  # Сравнение количества строк
+                raise ValueError('операции возможны только с матрицами равных размеров')
+
+            for i in range(len(self.data)):
+                if len(self.data[i]) != len(other.data[i]):  # Сравнение длины строк
+                    raise ValueError('операции возможны только с матрицами равных размеров')
+
+            temp = copy.deepcopy(self.data)
+            for i in range(len(self.data)):
+                for j in range(len(self.data)):
+                    temp[i][j] = temp[i][j] + other.data[i][j]
+
+            return Matrix(temp)
+
+        elif isinstance(other, int):
+            temp = copy.deepcopy(self.data)
+            for i in range(len(self.data)):
+                for j in range(len(self.data)):
+                    temp[i][j] += other
+
+            return Matrix(temp)
+
+    def __sub__(self, other):
+        if isinstance(other, Matrix):
+            if len(self.data) != len(other.data):  # Сравнение количества строк
+                raise ValueError('операции возможны только с матрицами равных размеров')
+
+            for i in range(len(self.data)):
+                if len(self.data[i]) != len(other.data[i]):  # Сравнение длины строк
+                    raise ValueError('операции возможны только с матрицами равных размеров')
+
+            temp = copy.deepcopy(self.data)
+            for i in range(len(self.data)):
+                for j in range(len(self.data)):
+                    temp[i][j] = temp[i][j] - other.data[i][j]
+
+            return Matrix(temp)
+
+        elif isinstance(other, int):
+            temp = copy.deepcopy(self.data)
+            for i in range(len(self.data)):
+                for j in range(len(self.data)):
+                    temp[i][j] -= other
+
+            return Matrix(temp)
 
