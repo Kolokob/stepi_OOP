@@ -170,66 +170,6 @@ class GamePole:
     def show_pole(self):
         for row in self.pole:
             print(*map(lambda x: '#' if not x.is_open else x.number if not x.is_mine else '*', row))
-class MyGamePole:
-    _instance = None
-    star = '*'
-    count = 0
-
-    def __new__(cls, *args, **kwargs):
-        if cls._instance is None:
-            cls._instance = super().__new__(cls)
-
-        return cls._instance
-
-    def __init__(self, N, M, total_mines):
-        self.N = N
-        self.M = M
-        self.total_mines = total_mines
-        self.__pole_cells = [[Cell(is_mine=False, is_open=True) for i in range(self.M)] for j in range(self.N)]
-
-    @property
-    def pole(self):
-        return getattr(self, '_GamePole__pole_cells')
-
-    def init_pole(self):
-        all_positions = [(i, j) for i in range(self.M) for j in range(self.N)]
-        mine_positions = random.sample(all_positions, self.total_mines)
-
-        for i, j in mine_positions:
-            self.__pole_cells[i][j].is_mine = True
-            for dr in [-1, 0, 1]:
-                for dc in [-1, 0, 1]:
-                    if dr == 0 and dc == 0:
-                        continue
-                    r, c = i + dr, j + dc
-                    if 0 <= r < self.M and 0 <= c < self.N and not self.__pole_cells[r][c].is_mine:
-                        self.__pole_cells[r][c].number += 1
-
-    def open_cell(self, i, j):
-        try:
-            self.__pole_cells[i][j].is_open = True
-        except IndexError:
-            raise IndexError('некорректные индексы i, j клетки игрового поля')
-
-    def show_pole(self):
-
-        directions = [(-1, 0), (1, 0), (0, -1), (0, 1), (-1, -1), (-1, 1), (1, -1), (1, 1)]
-
-        for i in range(self.M):
-            for j in range(self.N):
-                if self.__pole_cells[i][j].is_mine:
-                    for dr, dc in directions:
-                        r, c = i + dr, j + dc
-                        if 0 <= r < self.N and 0 <= c < self.M and not self.__pole_cells[r][c].is_mine:
-                            self.__pole_cells[r][c].number += 1
-
-        for i in range(self.M):
-            for j in range(self.N):
-                if self.__pole_cells[i][j].number == 0:
-                    print('*', end=' ')
-                else:
-                    print(self.__pole_cells[i][j].number, end=' ')
-            print()
 
 
 # TASK 6
