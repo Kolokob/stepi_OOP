@@ -147,45 +147,18 @@ class Cell:
         return True if self.value == 0 else False
 
 
-def play_game():
-    game = TicTacToe()
-    game.init()
-    print("Добро пожаловать в игру Крестики-Нолики!")
+a = TicTacToe()
 
-    while True:
-        game.show()
+a.init()
 
-        while True:
-            try:
-                row = int(input("Введите номер строки (0-2): "))
-                col = int(input("Введите номер столбца (0-2): "))
-                if game[row, col] == game.FREE_CELL:
-                    game.human_go((row, col))
-                    break
-                else:
-                    print("Клетка уже занята, попробуйте снова.")
-            except (ValueError, IndexError):
-                print("Некорректный ввод, попробуйте снова.")
-            except Exception as e:
-                print(e)
 
-        if game.is_human_win:
-            print("Поздравляем! Вы выиграли.")
-            game.show()
-            break
-        elif game.is_draw:
-            print("Ничья!")
-            game.show()
-            break
-
-        game.computer_go()
-
-        if game.is_computer_win:
-            print("Компьютер выиграл!")
-            game.show()
-            break
-        elif game.is_draw:
-            print("Ничья!")
-            game.show()
-            break
+for i in range(9):
+    r, c = list(map(int, input().split()))
+    a.human_go([r, c])
+    a.computer_go()
+    if a.is_human_win:
+        print('Ты победил')
+    elif a.is_computer_win:
+        print('Тебя победил компьютер')
+    a.show()
 
