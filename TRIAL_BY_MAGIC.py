@@ -157,8 +157,8 @@ for i in range(9):
     a.human_go([r, c])
     a.computer_go()
     if a.is_human_win:
-        print('Ты победил')
+        print('You won')
     elif a.is_computer_win:
-        print('Тебя победил компьютер')
+        print("You've been beaten by a computer")
     a.show()
 
