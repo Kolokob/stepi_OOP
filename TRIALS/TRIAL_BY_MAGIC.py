@@ -72,7 +72,7 @@ class TicTacToe:
     def computer_go(self):
         cell = [random.randint(0, 2) for i in range(2)]
         index = 0
-        for i in range(999):
+        for i in range(float('inf')):
             r, c = cell
             if index > len(self.free_cells):
                 index = 0
