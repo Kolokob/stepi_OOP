@@ -65,7 +65,7 @@ class TicTacToe:
         if cell in self.free_cells:
             temp[r][c] = Cell(self.HUMAN_X)
         else:
-            print('ЗАНЯТО НАХУЙ')
+            print('Busy')
 
         self.pole = copy.deepcopy(temp)
 
